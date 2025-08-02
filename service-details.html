@@ -22,6 +22,65 @@
 
      <!--=====JQUERY=======-->
      <script src="assets/js/jquery-3-7-1.min.js"></script>
+
+     <style>
+     /* Custom carousel styles */
+     .service-carousel {
+         position: relative;
+         border-radius: 8px;
+         overflow: hidden;
+         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+     }
+
+     .service-carousel .carousel-item img {
+         width: 100%;
+         height: 400px;
+         object-fit: contain;
+         border-radius: 8px;
+     }
+
+     .service-carousel .carousel-control-prev,
+     .service-carousel .carousel-control-next {
+         background: rgba(0,0,0,0.5);
+         border-radius: 50%;
+         width: 50px;
+         height: 50px;
+         top: 50%;
+         transform: translateY(-50%);
+     }
+
+     .service-carousel .carousel-control-prev {
+         left: 15px;
+     }
+
+     .service-carousel .carousel-control-next {
+         right: 15px;
+     }
+
+     .service-carousel .carousel-indicators {
+         bottom: 15px;
+     }
+
+     .service-carousel .carousel-indicators button {
+         width: 12px;
+         height: 12px;
+         border-radius: 50%;
+         margin: 0 5px;
+     }
+
+     .single-image {
+         border-radius: 8px;
+         overflow: hidden;
+         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+     }
+
+     .single-image img {
+         width: 100%;
+         height: 400px;
+         object-fit: cover;
+         border-radius: 8px;
+     }
+     </style>
 </head>
 <body class="body tg-heading-subheading animation-style3">
 
@@ -175,7 +234,7 @@
 
        <div class="contact-infos">
          <ul class="social-icon">
-           <li><a href="#"><i class="fa-brands fa-linkedin-in"></i></a></li>
+           <li><a href="https://www.linkedin.com/company/precisiongtech"><i class="fa-brands fa-linkedin-in"></i></a></li>
            <li><a href="#"><i class="fa-brands fa-x-twitter"></i></a></li>
            <li><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
            <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
@@ -209,9 +268,6 @@
 </div>
 <!--=====HERO AREA END=======-->
 
-<!-- Brand Slider -->
-
-
 <!--=====SERVICE DETAILS AREA START=======-->
 <div class="service-details-area-all sp">
     <div class="container">
@@ -220,8 +276,9 @@
                 <div class="service-details-post">
                     <article>
                         <div class="details-post-area">
-                            <div class="image">
-                                <img src="" alt="" id="service-image">
+                            <!-- Image container that will be populated by JavaScript -->
+                            <div id="service-image-container">
+                                <!-- Will be populated by JavaScript with either carousel or single image -->
                             </div>
                             <div class="space30"></div>
                             <div class="heading1">
@@ -388,7 +445,7 @@
                         <p>Empowering smart decisions through geospatial intelligence and IT innovation. </p>
                       </div>
                       <ul class="social-icon">
-                           <li><a href="#"><i class="fa-brands fa-linkedin-in"></i></a></li>
+                           <li><a href="https://www.linkedin.com/company/precisiongtech"><i class="fa-brands fa-linkedin-in"></i></a></li>
                            <li><a href="#"><i class="fa-brands fa-x-twitter"></i></a></li>
                            <li><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
                            <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
@@ -487,6 +544,67 @@ function getUrlParameter(name) {
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
+// Function to create image carousel or single image
+function createImageDisplay(images, serviceTitle) {
+    if (!images || images.length === 0) {
+        return '<div class="single-image"><img src="assets/img/default-service.jpg" alt="' + serviceTitle + '"></div>';
+    }
+    
+    if (images.length === 1) {
+        // Single image
+        return `
+            <div class="single-image">
+                <img src="${images[0]}" alt="${serviceTitle}">
+            </div>
+        `;
+    } else {
+        // Multiple images - create carousel
+        const carouselId = 'serviceImageCarousel';
+        let carouselHTML = `
+            <div id="${carouselId}" class="carousel slide service-carousel" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+        `;
+        
+        // Add indicators
+        images.forEach((img, index) => {
+            carouselHTML += `
+                <button type="button" data-bs-target="#${carouselId}" data-bs-slide-to="${index}" 
+                        ${index === 0 ? 'class="active" aria-current="true"' : ''} 
+                        aria-label="Slide ${index + 1}"></button>
+            `;
+        });
+        
+        carouselHTML += `
+                </div>
+                <div class="carousel-inner">
+        `;
+        
+        // Add carousel items
+        images.forEach((img, index) => {
+            carouselHTML += `
+                <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                    <img src="${img}" class="d-block w-100" alt="${serviceTitle} - Image ${index + 1}">
+                </div>
+            `;
+        });
+        
+        carouselHTML += `
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#${carouselId}" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        `;
+        
+        return carouselHTML;
+    }
+}
+
 // Function to populate service details
 function populateServiceDetails() {
     const serviceId = getUrlParameter('service') || 'utility-mapping-inventory';
@@ -504,9 +622,9 @@ function populateServiceDetails() {
     document.getElementById('service-description').textContent = service.description;
     document.title = `${service.shortTitle || service.title} - Precision GIS`;
     
-    // Update service image
-    document.getElementById('service-image').src = service.img;
-    document.getElementById('service-image').alt = service.title;
+    // Update service images (carousel or single)
+    const imageContainer = document.getElementById('service-image-container');
+    imageContainer.innerHTML = createImageDisplay(service.img, service.title);
     
     // Populate offerings
     const offeringsContainer = document.getElementById('service-offerings');
