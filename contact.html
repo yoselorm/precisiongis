@@ -297,48 +297,58 @@
 
                   <div class="col-lg-6">
                       <div class="contact-form-details">
-                          <form action="#">
-                              <div class="row">
-                                  <div class="col-lg-6">
-                                      <div class="single-input">
-                                          <input type="text" placeholder="First Name">
-                                      </div>
-                                  </div>
-                                  <div class="col-lg-6">
-                                      <div class="single-input">
-                                          <input type="text" placeholder="Last Name">
-                                      </div>
-                                  </div>
-
-                                  <div class="col-lg-6">
-                                      <div class="single-input">
-                                          <input type="email" placeholder="Email">
-                                      </div>
-                                  </div>
-
-                                  <div class="col-lg-6">
-                                      <div class="single-input">
-                                          <input type="number" placeholder="Phone">
-                                      </div>
-                                  </div>
-                                  <div class="col-lg-12">
-                                      <div class="single-input">
-                                          <input type="text" placeholder="Subject">
-                                      </div>
-                                  </div>
-
-                                  <div class="col-lg-12">
-                                      <div class="single-input">
-                                          <textarea cols="30" rows="5" placeholder="Message"></textarea>
-                                      </div>
-                                  </div>
-
-                                  <div class="col-lg-12">
-                                      <button class="theme-btn1">Submit <span><i class="fa-solid fa-arrow-right"></i></span></button>
-                                  </div>
-
+                        <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you">
+                          <!-- Hidden inputs for Netlify to detect the form -->
+                          <input type="hidden" name="form-name" value="contact" />
+                          <p hidden>
+                            <label>Don’t fill this out if you're human: <input name="bot-field" /></label>
+                          </p>
+                        
+                          <div class="row">
+                            <div class="col-lg-6">
+                              <div class="single-input">
+                                <input type="text" name="first_name" placeholder="First Name" required />
                               </div>
-                          </form>
+                            </div>
+                        
+                            <div class="col-lg-6">
+                              <div class="single-input">
+                                <input type="text" name="last_name" placeholder="Last Name" required />
+                              </div>
+                            </div>
+                        
+                            <div class="col-lg-6">
+                              <div class="single-input">
+                                <input type="email" name="email" placeholder="Email" required />
+                              </div>
+                            </div>
+                        
+                            <div class="col-lg-6">
+                              <div class="single-input">
+                                <input type="tel" name="phone" placeholder="Phone" />
+                              </div>
+                            </div>
+                        
+                            <div class="col-lg-12">
+                              <div class="single-input">
+                                <input type="text" name="subject" placeholder="Subject" />
+                              </div>
+                            </div>
+                        
+                            <div class="col-lg-12">
+                              <div class="single-input">
+                                <textarea name="message" cols="30" rows="5" placeholder="Message" required></textarea>
+                              </div>
+                            </div>
+                        
+                            <div class="col-lg-12">
+                              <button class="theme-btn1" type="submit">
+                                Submit <span><i class="fa-solid fa-arrow-right"></i></span>
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                        
                       </div>
                   </div>
               </div>

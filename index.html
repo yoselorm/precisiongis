@@ -666,7 +666,11 @@
 
                   <div class="col-lg-6">
                       <div class="contact-form-details">
-                          <form action="#">
+                          <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you">
+                            <input type="hidden" name="form-name" value="contact" />
+                            <p hidden>
+                              <label>Don’t fill this out if you're human: <input name="bot-field" /></label>
+                            </p>
                               <div class="row">
                                   <div class="col-lg-6">
                                       <div class="single-input">
