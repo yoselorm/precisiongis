@@ -7,7 +7,7 @@ const service_details = [
     offerings: [
       {
         title: "Asset Mapping and Tracing",
-        description: "Detailed geospatial models of all electrical assets—substations, transformers, feeders, poles, meters, and customer connections—capturing both spatial and relational data.",
+        description: "Detailed geospatial models of all electrical assetssubstations, transformers, feeders, poles, meters, and customer connectionscapturing both spatial and relational data.",
         features: [
           "Visualize network layouts",
           "Trace service paths (e.g., from substation to household)",
